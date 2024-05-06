@@ -73,6 +73,8 @@ impl<'a, T: AsRef<[u8]>, A: Into<usize>, B: Into<usize>> From<(&'a T, A, B)> for
     }
 }
 
+use opencv::prelude::MatTraitConstManual;
+
 /// The main context struct. This stores the necessary buffers for the search and grayscale
 /// conversion.
 ///
@@ -531,7 +533,7 @@ impl SubImageFinderState {
                 unsafe {
                     let mut out_mat = opencv::core::Mat::default();
                     opencv::imgproc::match_template(
-                        &opencv::core::Mat::new_rows_cols_with_data(
+                        &opencv::core::Mat::new_rows_cols_with_data_unsafe(
                             search_height as i32,
                             search_width as i32,
                             opencv_mat_typ_search,
@@ -539,7 +541,7 @@ impl SubImageFinderState {
                             0,
                         )
                         .unwrap(),
-                        &opencv::core::Mat::new_rows_cols_with_data(
+                        &opencv::core::Mat::new_rows_cols_with_data_unsafe(
                             subimage_height as i32,
                             subimage_width as i32,
                             opencv_mat_typ_sub,
